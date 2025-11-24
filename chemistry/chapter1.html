@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chemistry — Chapter 1</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <header class="site-header" style="text-align:left; max-width:900px; margin:22px auto 0;">
+    <a href="../index.html" style="text-decoration:none; color:inherit;">
+      <h1 class="logo">Study<span>Hub</span></h1>
+    </a>
+    <div class="breadcrumb"> Chemistry / Chapter 1</div>
+  </header>
+
+  <main class="chapter-container">
+    <div class="chapter-header">
+      <div>
+        <h2>Chapter 1</h2>
+        <p class="note">Subject: Chemistry</p>
+      </div>
+    </div>
+
+    <section class="video-section">
+      <h3>Playlist</h3>
+      <div class="video-wrap">
+        <iframe id="playlist" style="display:none;" data-src="" title="YouTube playlist" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <section style="margin-top:18px;">
+      <h3>Notes</h3>
+      <p class="note">You can add chapter-specific notes here or links to resources.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer" style="max-width:900px; margin:18px auto;">
+    <small><a href="../index.html" style="color:var(--muted); text-decoration:none;">← Back to home</a></small>
+  </footer>
+
+  <script>
+    try{
+      const subject = location.pathname.split('/')[1];
+      sessionStorage.setItem('fromSubject', subject);
+    }catch(e){}
+  </script>
+</body>
+</html>
