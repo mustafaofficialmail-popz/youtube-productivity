@@ -1,0 +1,134 @@
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seller Form</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+      background: #f2f4f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .form-card {
+      background: #fff;
+      width: 420px;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .title h2 {
+      margin: 0;
+      color: #4b0082;
+      font-weight: 600;
+    }
+
+    .title hr {
+      width: 60px;
+      margin: 10px auto;
+      height: 4px;
+      background: #7c4dff;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .form-card input,
+    .form-card textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      transition: 0.2s;
+    }
+
+    .form-card input:focus,
+    .form-card textarea:focus {
+      border-color: #7c4dff;
+      box-shadow: 0 0 5px rgba(124, 77, 255, 0.3);
+    }
+
+    .form-card textarea {
+      height: 100px;
+      resize: none;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: #7c4dff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #5a31d4;
+    }
+
+    .reset-btn {
+      background: #6c757d !important;
+    }
+
+    .link {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .link a {
+      color: #7c4dff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="form-card">
+    <div class="title">
+      <h2>To, Mu⚡︎tBuy</h2>
+      <hr>
+    </div>
+
+    <form action="https://api.web3forms.com/submit" method="POST">
+
+      <input type="hidden" name="access_key" value="9cc76d8b-800f-4800-a53e-b8c05fc2a44c" />
+
+      <input type="text" name="name" placeholder="Your Name" required>
+
+      <input type="text" name="product name" placeholder="Product Name" required>
+
+      <textarea name="product detail" placeholder="Product Details" required></textarea>
+
+      <button class="btn" type="submit">Submit →</button>
+
+      <button class="btn reset-btn" type="reset">Reset</button>
+
+      <div class="link">
+        <a href="index.html">Go to Home</a>
+      </div>
+
+    </form>
+  </div>
+
+</body>
+</html>
