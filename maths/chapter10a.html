@@ -1,1 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chapter Videos</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f3f3f3;
+    }
 
+    .container {
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* Left panel – video list */
+    .video-list {
+        width: 35%;
+        background: #ffffff;
+        border-right: 2px solid #ddd;
+        overflow-y: scroll;
+        padding: 15px;
+    }
+
+    .video-item {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        background: #f8f8f8;
+        cursor: pointer;
+        transition: 0.2s;
+        border: 1px solid #ddd;
+    }
+
+    .video-item:hover,
+    .video-item.active {
+        background: #d8e4ff;
+        border-color: #7aa6ff;
+    }
+
+    /* Right panel – player + input */
+    .right {
+        width: 65%;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    iframe {
+        width: 90%;
+        height: 400px;
+        border-radius: 10px;
+        border: none;
+    }
+
+    .controls {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .controls button {
+        padding: 10px 15px;
+        background: #3b7ddd;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .controls button:hover {
+        background: #1b5fcc;
+    }
+
+    .input-box {
+        margin-top: 20px;
+        width: 90%;
+        display: flex;
+        gap: 10px;
+    }
+
+    .input-box input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #aaa;
+        font-size: 16px;
+    }
+
+    .input-box button {
+        padding: 10px 20px;
+        border: none;
+        background: #3b7ddd;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .input-box button:hover {
+        background: #1b5fcc;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- LEFT SIDE — scrollable titles -->
+    <div class="video-list" id="videoList">
+        <h2>Playlist Videos</h2>
+        <p>Loading...</p>
+    </div>
+
+    <!-- RIGHT SIDE — player + input -->
+    <div class="right">
+      <iframe id="player"
+      src="https://www.youtube.com/playlist?list=PLFOIo446Lgib7uptJE5G2GCXmlNKSW97_"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+        <!-- NEXT / PREVIOUS CONTROL BUTTONS -->
+        <div class="controls">
+            <button onclick="prevVideo()">⟵ Previous</button>
+            <button onclick="nextVideo()">Next ⟶</button>
+             <footer class="site-footer" style="max-width:900px; margin:18px auto;">
+    <small><a href="../index.html" style="color:var(--muted); text-decoration:none;">← Back to home</a></small>
+  </footer>
+        </div>
+
+        <div class="input-box">
+            <input type="number" id="videoNumber" placeholder="Enter video number (1–100)">
+            <button onclick="playByNumber()">Play Video</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const apiKey = "AIzaSyApo9ey62XW7Bg9cIF3Nx7-SttdaTws0Vw"; 
+const playlistId = "PLFOIo446Lgib7uptJE5G2GCXmlNKSW97_";  
+
+let videos = [];
+let nextPageToken = "";
+let loadedAll = false;
+let currentIndex = 0;
+
+// Load ALL videos (not only 50)
+async function loadAllVideos() {
+    while (!loadedAll) {
+        let url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${apiKey}`;
+        if (nextPageToken) url += `&pageToken=${nextPageToken}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        videos.push(...data.items);
+        nextPageToken = data.nextPageToken;
+
+        if (!nextPageToken) loadedAll = true;
+    }
+
+    displayVideos();
+}
+
+function displayVideos() {
+    const list = document.getElementById("videoList");
+    list.innerHTML = "";
+
+    videos.forEach((video, index) => {
+        const title = video.snippet.title;
+
+        const div = document.createElement("div");
+        div.className = "video-item";
+        div.innerText = (index + 1) + ". " + title;
+
+        div.onclick = () => playVideo(index);
+
+        list.appendChild(div);
+    });
+}
+
+function highlightCurrent() {
+    const items = document.querySelectorAll(".video-item");
+    items.forEach(item => item.classList.remove("active"));
+    if (items[currentIndex]) {
+        items[currentIndex].classList.add("active");
+
+        // auto-scroll selected item into view
+        items[currentIndex].scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+}
+
+function playVideo(index) {
+    currentIndex = index;
+    const id = videos[index].snippet.resourceId.videoId;
+    document.getElementById("player").src = `https://www.youtube.com/embed/${id}`;
+    highlightCurrent();
+}
+
+function nextVideo() {
+    if (currentIndex < videos.length - 1) {
+        playVideo(currentIndex + 1);
+    }
+}
+
+function prevVideo() {
+    if (currentIndex > 0) {
+        playVideo(currentIndex - 1);
+    }
+}
+
+function playByNumber() {
+    const num = Number(document.getElementById("videoNumber").value) - 1;
+
+    if (num < 0 || num >= videos.length) {
+        alert("Invalid video number!");
+        return;
+    }
+
+    playVideo(num);
+}
+
+loadAllVideos();
+</script>
+
+</body>
+</html>
