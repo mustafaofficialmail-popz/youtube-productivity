@@ -119,6 +119,7 @@
 
     <!-- RIGHT SIDE — player + input -->
     <div class="right">
+        <div id="loader">Loading video...</div>
       <iframe id="player"
        src="https://youtube.com/playlist?list=PLi-L5vIZXO41DTnEBpYPEUR_7KKwMS8SK"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -197,6 +198,10 @@ function highlightCurrent() {
 function playVideo(index) {
     currentIndex = index;
     const id = videos[index].snippet.resourceId.videoId;
+    let playerEl = document.getElementById("player");
+
+playerEl.src = ""; // clear first (reduces glitch)
+playerEl.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
     document.getElementById("player").src = `https://www.youtube.com/embed/${id}`;
     highlightCurrent();
 }
