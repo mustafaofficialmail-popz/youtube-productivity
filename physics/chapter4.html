@@ -151,21 +151,19 @@ let loadedAll = false;
 let currentIndex = 0;
 
 // Load ALL videos (not only 50)
-async function loadAllVideos() {
-    while (!loadedAll) {
+async function loadVideos() {
+    try {
         let url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${apiKey}`;
-        if (nextPageToken) url += `&pageToken=${nextPageToken}`;
 
         const response = await fetch(url);
         const data = await response.json();
 
-        videos.push(...data.items);
-        nextPageToken = data.nextPageToken;
+        videos = data.items;
 
-        if (!nextPageToken) loadedAll = true;
+        displayVideos();
+    } catch (error) {
+        console.error("Error loading videos:", error);
     }
-
-    displayVideos();
 }
 
 function displayVideos() {
@@ -226,7 +224,7 @@ function playByNumber() {
     playVideo(num);
 }
 
-loadAllVideos();
+loadVideos();
 </script>
 
 </body>
