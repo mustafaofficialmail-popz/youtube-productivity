@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Chapter Videos</title>
 <style>
     body {
@@ -120,7 +121,7 @@
     <!-- RIGHT SIDE — player + input -->
     <div class="right">
       <iframe id="player"
-      src="https://www.youtube.com/playlist?list=PLNdxVD5QgIyZEG9Uu9HkvwYahegWoR_cr"
+      src="https://www.youtube.com/embed/videoseries?list=PLNdxVD5QgIyZEG9Uu9HkvwYahegWoR_cr"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen>
     </iframe>
@@ -200,7 +201,10 @@ function highlightCurrent() {
 function playVideo(index) {
     currentIndex = index;
     const id = videos[index].snippet.resourceId.videoId;
-    document.getElementById("player").src = `https://www.youtube.com/embed/${id}`;
+
+    document.getElementById("player").src =
+      `https://www.youtube.com/embed/${id}?list=${playlistId}`;
+
     highlightCurrent();
 }
 
