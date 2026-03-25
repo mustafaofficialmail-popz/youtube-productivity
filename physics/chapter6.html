@@ -200,10 +200,7 @@ function highlightCurrent() {
 function playVideo(index) {
     currentIndex = index;
     const id = videos[index].snippet.resourceId.videoId;
-
-    document.getElementById("player").src =
-      `https://www.youtube.com/embed/${id}?list=${playlistId}`;
-
+    document.getElementById("player").src = `https://www.youtube.com/embed/${id}`;
     highlightCurrent();
 }
 
